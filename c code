@@ -1,0 +1,143 @@
+//
+//  kasiyerodevi.c
+//  MyTool
+//
+//  Created by KÜBRA on 14.10.2026.
+//
+
+// yorum satırı oluşturma(hatırlatma kendime)
+#include "kasiyerodevi.h"
+
+#include <stdio.h>
+#include <math.h>
+
+int main(void) {
+    
+    float urun_tutari;
+    float odenen_para;
+    float para_ustu;
+    
+    int hatali_kurus;
+    int dogru_kurus;
+    
+    int toplam_kupur_sayisi = 0;
+    int adet;
+    
+    // 1. ASAMA: KULLANICIDAN VERILERI ALMA
+    printf("Lutfen urun tutarini giriniz (Ornek: 18.70): ");
+    scanf("%f", &urun_tutari);
+
+    printf("Lutfen musterinin odedigi tutari giriniz (Ornek: 20.00): ");
+    scanf("%f", &odenen_para);
+
+    // KURAL KONTROLU: Eger odenen para urun fiyatindan kucukse
+    // WHILE ile kasiyeri uyariyor ve gecerli bir para girene kadar isleme devam etmiyoruz.
+    while (odenen_para < urun_tutari) {
+        printf("\nHATA: Eksik odeme! Odenen para (%.2f TL), urun tutarindan (%.2f TL) kucuk olamaz.\n", odenen_para, urun_tutari);
+        printf("Lutfen parayi tamamlayip tekrar giriniz: ");
+        scanf("%f", &odenen_para);
+    }
+
+    // Doğru ve yeterli para girildiginde program buradan hesaplamaya devam eder.
+    para_ustu = odenen_para - urun_tutari;
+
+    printf("\n--- RAPOR VE HESAPLAMA EKRANI ---\n");
+    printf("Urun Tutari: %.2f TL\n", urun_tutari);
+    printf("Odenen Para: %.2f TL\n", odenen_para);
+    printf("Verilmesi Gereken Para Ustu: %.2f TL\n", para_ustu);
+
+    // 2. ASAMA: HASSASIYET HATASI (RAPOR KISMI)
+    hatali_kurus = (int)(para_ustu * 100);
+    
+    printf("\n[RAPOR: ONDALIKLI SAYI HASSASIYETI SORUNU]\n");
+    printf("Sistemin (Yuvarlamasiz) Kurus Hesabi: %d Kurus\n", hatali_kurus);
+    printf("Neden Hata Cikti? C dilinde ondalikli (float) sayilar ikilik sistemde\n");
+    printf("tam ifade edilemediginden (ornegin 1.299999) kusurat kaybi yasanir.\n");
+
+    // 3. ASAMA: DOGRU YUVARLAMA (round kullanarak)
+    dogru_kurus = (int)round(para_ustu * 100);
+    
+    printf("\n[COZUM: DOGRU YUVARLAMA YONTEMI]\n");
+    printf("round() fonksiyonu kullanilarak elde edilen DOGRU Kurus: %d Kurus\n", dogru_kurus);
+
+    // 4. ASAMA: MOD (%) VE BOLME (/) ILE KUPUR HESAPLAMA
+    printf("\n--- PARA USTU DAGILIMI (Sifir olanlar da gosterilmektedir) ---\n");
+
+    // 200 TL (20000 Kurus)
+    adet = dogru_kurus / 20000;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 20000;
+    printf("%d adet 200 TL\n", adet);
+
+    // 100 TL (10000 Kurus)
+    adet = dogru_kurus / 10000;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 10000;
+    printf("%d adet 100 TL\n", adet);
+
+    // 50 TL (5000 Kurus)
+    adet = dogru_kurus / 5000;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 5000;
+    printf("%d adet 50 TL\n", adet);
+
+    // 20 TL (2000 Kurus)
+    adet = dogru_kurus / 2000;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 2000;
+    printf("%d adet 20 TL\n", adet);
+
+    // 10 TL (1000 Kurus)
+    adet = dogru_kurus / 1000;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 1000;
+    printf("%d adet 10 TL\n", adet);
+
+    // 5 TL (500 Kurus)
+    adet = dogru_kurus / 500;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 500;
+    printf("%d adet 5 TL\n", adet);
+
+    // 1 TL (100 Kurus)
+    adet = dogru_kurus / 100;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 100;
+    printf("%d adet 1 TL\n", adet);
+
+    // 50 Kurus
+    adet = dogru_kurus / 50;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 50;
+    printf("%d adet 50 Kurus\n", adet);
+
+    // 25 Kurus
+    adet = dogru_kurus / 25;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 25;
+    printf("%d adet 25 Kurus\n", adet);
+
+    // 10 Kurus
+    adet = dogru_kurus / 10;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 10;
+    printf("%d adet 10 Kurus\n", adet);
+
+    // 5 Kurus
+    adet = dogru_kurus / 5;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 5;
+    printf("%d adet 5 Kurus\n", adet);
+
+    // 1 Kurus
+    adet = dogru_kurus / 1;
+    toplam_kupur_sayisi = toplam_kupur_sayisi + adet;
+    dogru_kurus = dogru_kurus % 1;
+    printf("%d adet 1 Kurus\n", adet);
+
+    // SONUC EKRANI
+    printf("\nIslem tamamlandi. Musteriye toplam verilen kupur (banknot + madeni) sayisi: %d\n", toplam_kupur_sayisi);
+
+    return 0;
+}
+  
